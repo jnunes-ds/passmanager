@@ -29,29 +29,49 @@ const schema = Yup.object().shape({
 })
 
 export function RegisterLoginData() {
+  const Loginskey = '@passmanager:logins'; 
+
   const {
     control,
     handleSubmit,
     reset,
-    formState: {
-      errors
-    }
-  } = useForm();
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
+
 
   async function handleRegister(formData: FormData) {
     const newLoginData = {
       id: String(uuid.v4()),
       ...formData
     }
-
     // Save data on AsyncStorage
+    try {
+      const logins = await AsyncStorage.getItem(Loginskey);
+      const currentLogins = logins ? JSON.parse(logins) : [];
+  
+      const loginsFormatted = [
+        ...currentLogins,
+        newLoginData
+      ];
+
+      await AsyncStorage.setItem(Loginskey, JSON.stringify(loginsFormatted));
+
+      reset();
+
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Não foi possível cadastrar o login.');
+    }
   }
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior='padding'
       enabled
+      
     >
       <Container>
         <HeaderTitle>Salve o login de algum serviço!</HeaderTitle>
@@ -60,7 +80,7 @@ export function RegisterLoginData() {
           <Input
             title="Título"
             name="title"
-            error="O TÍTULO é obrigatório"
+            error={errors.title && errors.title.message}
             control={control}
             placeholder="Escreva o título aqui"
             autoCapitalize="sentences"
@@ -69,7 +89,7 @@ export function RegisterLoginData() {
           <Input
             title="Email"
             name="email"
-            error="O EMAIL é obrigatório"
+            error={errors.email && errors.email.message}
             control={control}
             placeholder="Escreva o Email aqui"
             autoCorrect={false}
@@ -79,7 +99,7 @@ export function RegisterLoginData() {
           <Input
             title="Senha"
             name="password"
-            error="A SENHA é obrigatória"
+            error={errors.password && errors.password.message}
             control={control}
             secureTextEntry
             placeholder="Escreva a senha aqui"

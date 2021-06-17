@@ -4,6 +4,7 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium } from '@expo-google-fo
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
+import { RegisterLoginData } from './src/screens/RegisterLoginData/index';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,7 +18,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AppRoutes />
+      <RegisterLoginData />
     </NavigationContainer>
   );
 }
