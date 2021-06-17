@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
 import { RegisterLoginData } from './src/screens/RegisterLoginData/index';
+import { Home } from './src/screens/Home/index';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,7 +19,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <RegisterLoginData />
+      <Home />
     </NavigationContainer>
   );
 }
