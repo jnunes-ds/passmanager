@@ -38,15 +38,32 @@ export function Home() {
     loadData();
   }, []);
 
-  // useFocusEffect(useCallback(() => {
-  //   loadData();
-  // }, []));
+  useFocusEffect(useCallback(() => {
+    loadData();
+  }, []));
 
   function handleFilterLoginData(search: string) {
     // Filter results inside data, save with setSearchListData
-    const filteredData = data.filter(item => item.title.includes(search));
+    const startsWithABlank: boolean = search.indexOf(' ') === 0;
 
-    setSearchListData(filteredData);
+    const filterLoginData = () => {
+      const filteredData = data.filter(item => {
+        const upperCaseItem = item.title.toUpperCase();
+        
+        if(upperCaseItem.includes(search.trim().toUpperCase())){
+          return item.title
+        }
+      });
+  
+      setSearchListData(filteredData);
+    }
+    
+
+    if(!startsWithABlank){
+      filterLoginData();
+    }else if(search.trim() !== ''){
+      filterLoginData();
+    }
   }
 
   return (
