@@ -48,19 +48,20 @@ function StorageDataProvider({ children }: StorageDataProviderProps){
         }
         // Save data on AsyncStorage
         try {
-        const logins = await AsyncStorage.getItem(loginsStorageKey);
-        const currentLogins = logins ? JSON.parse(logins) : [];
-    
-        const loginsFormatted = [
-            ...currentLogins,
-            newLoginData
-        ];
+            const logins = await AsyncStorage.getItem(loginsStorageKey);
+            const currentLogins = logins ? JSON.parse(logins) : [];
+        
+            const loginsFormatted = [
+                ...currentLogins,
+                newLoginData
+            ];
 
-        await AsyncStorage.setItem(loginsStorageKey, JSON.stringify(loginsFormatted));
+            await AsyncStorage.setItem(loginsStorageKey, JSON.stringify(loginsFormatted));
+            console.log(logins);
 
         } catch (error) {
-        console.log(error);
-        Alert.alert('Não foi possível cadastrar o login.');
+            console.log(error);
+            Alert.alert('Não foi possível cadastrar o login.');
         }
     }
 

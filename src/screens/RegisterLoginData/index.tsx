@@ -15,6 +15,7 @@ import {
   HeaderTitle,
   Form
 } from './styles';
+import { useStorageData } from '../../hooks/storageData';
 
 interface FormData {
   title: string;
@@ -29,8 +30,6 @@ const schema = Yup.object().shape({
 })
 
 export function RegisterLoginData() {
-  const Loginskey = '@passmanager:logins'; 
-
   const {
     control,
     handleSubmit,
@@ -40,30 +39,15 @@ export function RegisterLoginData() {
     resolver: yupResolver(schema)
   });
 
+  const {
+    createANewLogin
+  } = useStorageData();
+
 
   async function handleRegister(formData: FormData) {
-    const newLoginData = {
-      id: String(uuid.v4()),
-      ...formData
-    }
-    // Save data on AsyncStorage
-    try {
-      const logins = await AsyncStorage.getItem(Loginskey);
-      const currentLogins = logins ? JSON.parse(logins) : [];
-  
-      const loginsFormatted = [
-        ...currentLogins,
-        newLoginData
-      ];
+    await createANewLogin(formData);
 
-      await AsyncStorage.setItem(Loginskey, JSON.stringify(loginsFormatted));
-
-      reset();
-
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Não foi possível cadastrar o login.');
-    }
+    reset();
   }
 
   return (

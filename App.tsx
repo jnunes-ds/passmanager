@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/routes/app.routes';
 import { RegisterLoginData } from './src/screens/RegisterLoginData/index';
 import { Home } from './src/screens/Home/index';
+import { StorageDataProvider } from './src/hooks/storageData';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,7 +20,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AppRoutes />
+      <StorageDataProvider>
+        <AppRoutes />
+      </StorageDataProvider>
     </NavigationContainer>
   );
 }
