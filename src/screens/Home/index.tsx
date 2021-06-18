@@ -11,6 +11,7 @@ import {
   EmptyListContainer,
   EmptyListMessage
 } from './styles';
+import { useStorageData } from '../../hooks/storageData';
 
 interface LoginDataProps {
   id: string;
@@ -23,31 +24,22 @@ type LoginListDataProps = LoginDataProps[];
 
 export function Home() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([] as LoginListDataProps);
-  const [data, setData] = useState<LoginListDataProps>([] as LoginListDataProps);
-  const loginsKey = '@passmanager:logins';
-
-  async function loadData() {
-    // Get asyncStorage data, use setSearchListData and setData
-    const logins = await AsyncStorage.getItem(loginsKey);
-    const loginsFormatted = logins ? JSON.parse(logins) : [];
-
-    setData(loginsFormatted);
-    setSearchListData(loginsFormatted);
+  const {
+    getAllLogins,
+    loginDataList
+  } = useStorageData();
+  
+  async function loadData(){
+    await getAllLogins();
+    setSearchListData(loginDataList);
   }
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useFocusEffect(useCallback(() => {
-    loadData();
-  }, []));
-
+  
   function handleFilterLoginData(search: string) {
     // Filter results inside data, save with setSearchListData
     const startsWithABlank: boolean = search.indexOf(' ') === 0;
 
     const filterLoginData = () => {
-      const filteredData = data.filter(item => {
+      const filteredData = loginDataList.filter(item => {
         const upperCaseItem = item.title.toUpperCase();
         
         if(upperCaseItem.includes(search.trim().toUpperCase())){
@@ -65,6 +57,15 @@ export function Home() {
       filterLoginData();
     }
   }
+  
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useFocusEffect(useCallback(() => {
+    loadData();
+  }, []));
+
 
   return (
     <Container>

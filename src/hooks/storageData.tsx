@@ -57,7 +57,6 @@ function StorageDataProvider({ children }: StorageDataProviderProps){
             ];
 
             await AsyncStorage.setItem(loginsStorageKey, JSON.stringify(loginsFormatted));
-            console.log(logins);
 
         } catch (error) {
             console.log(error);
