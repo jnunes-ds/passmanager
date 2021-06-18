@@ -22,6 +22,7 @@ interface StorageDataContextProps{
     loginDataList: LoginDataProps[];
     createANewLogin(formData : FormData): Promise<void>;
     getAllLogins(): Promise<void>;
+    removeAllLogins(): Promise<void>;
 }
 
 
@@ -64,12 +65,17 @@ function StorageDataProvider({ children }: StorageDataProviderProps){
         }
     }
 
+    async function removeAllLogins(){
+        await AsyncStorage.removeItem(loginsStorageKey);
+    }
+
   return (
       <StorageDataContext.Provider
         value={{
             loginDataList,
             createANewLogin,
-            getAllLogins
+            getAllLogins,
+            removeAllLogins
 
         }}
       >

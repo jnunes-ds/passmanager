@@ -22,7 +22,7 @@ export function Home() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([] as LoginListDataProps);
   const {
     getAllLogins,
-    loginDataList
+    loginDataList,
   } = useStorageData();
   
   async function loadData(){
@@ -53,6 +53,7 @@ export function Home() {
       filterLoginData();
     }
   }
+
 
   useEffect(() => {
     loadData();
