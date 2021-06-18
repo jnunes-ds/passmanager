@@ -4,9 +4,11 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium } from '@expo-google-fo
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
-import { RegisterLoginData } from './src/screens/RegisterLoginData/index';
-import { Home } from './src/screens/Home/index';
 import { StorageDataProvider } from './src/hooks/storageData';
+
+import { StatusBar } from 'react-native';
+import { ThemeProvider } from 'styled-components';
+import theme from './src/global/theme';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -19,10 +21,19 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StorageDataProvider>
-        <AppRoutes />
-      </StorageDataProvider>
-    </NavigationContainer>
+      <NavigationContainer>
+        <ThemeProvider theme={theme}>
+        <StatusBar
+            animated={true}
+            showHideTransition="fade"  
+            translucent={true}
+            backgroundColor="transparent"
+            barStyle="light-content"
+          />
+        <StorageDataProvider>
+          <AppRoutes />
+        </StorageDataProvider>
+        </ThemeProvider>
+      </NavigationContainer>
   );
 }
