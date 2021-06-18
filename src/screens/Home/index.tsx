@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import { SearchBar } from '../../components/SearchBar';
 import { LoginDataItem } from '../../components/LoginDataItem';
+import { LoginDataProps } from '../../hooks/storageData';
 
 import {
   Container,
@@ -13,12 +14,7 @@ import {
 } from './styles';
 import { useStorageData } from '../../hooks/storageData';
 
-interface LoginDataProps {
-  id: string;
-  title: string;
-  email: string;
-  password: string;
-};
+
 
 type LoginListDataProps = LoginDataProps[];
 
@@ -57,7 +53,7 @@ export function Home() {
       filterLoginData();
     }
   }
-  
+
   useEffect(() => {
     loadData();
   }, []);

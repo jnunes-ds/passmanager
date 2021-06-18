@@ -10,7 +10,7 @@ interface FormData{
     password: string;
 }
 
-interface LoginDataProps extends FormData{
+export interface LoginDataProps extends FormData{
   id: string;
 };
 
