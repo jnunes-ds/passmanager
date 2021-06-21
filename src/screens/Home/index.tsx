@@ -12,6 +12,7 @@ import {
   EmptyListMessage
 } from './styles';
 import { useStorageData } from '../../hooks/storageData';
+import { setTimeout } from 'timers';
 
 
 
@@ -19,14 +20,17 @@ type LoginListDataProps = LoginDataProps[];
 
 export function Home() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([] as LoginListDataProps);
+  
   const {
     getAllLogins,
     loginDataList,
   } = useStorageData();
+  const [loginDataListLength, setLoginDataListLength] = useState<number>(loginDataList.length);
   
   async function loadData(){
     await getAllLogins();
     setSearchListData(loginDataList);
+    setLoginDataListLength(loginDataList.length);
   }
   
   function handleFilterLoginData(search: string) {
@@ -62,10 +66,12 @@ export function Home() {
   }, []));
 
   useFocusEffect(useCallback(() => {
-    if(searchListData.length === 0 && loginDataList.length > 0){
+    if(loginDataListLength < loginDataList.length){
       loadData();
+    }else{
+      return;
     }
-  }, [searchListData]));
+  }, [loginDataList]));
 
 
   return (

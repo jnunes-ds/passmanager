@@ -69,6 +69,8 @@ function StorageDataProvider({ children }: StorageDataProviderProps){
         await AsyncStorage.removeItem(loginsStorageKey);
     }
 
+
+    
   return (
       <StorageDataContext.Provider
         value={{
