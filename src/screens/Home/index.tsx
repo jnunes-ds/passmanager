@@ -27,7 +27,9 @@ export function Home() {
   
   async function loadData(){
     await getAllLogins();
-    setSearchListData(loginDataList);
+    if(searchListData.length === 0){
+      setSearchListData(loginDataList);
+    }
   }
   
   function handleFilterLoginData(search: string) {
@@ -42,15 +44,14 @@ export function Home() {
           return item.title
         }
       });
-  
       setSearchListData(filteredData);
     }
     
 
-    if(!startsWithABlank){
+    if(!startsWithABlank || search.trim() !== ''){
       filterLoginData();
-    }else if(search.trim() !== ''){
-      filterLoginData();
+    }else{
+      setSearchListData(loginDataList);
     }
   }
 
