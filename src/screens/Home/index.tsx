@@ -12,7 +12,6 @@ import {
   EmptyListMessage
 } from './styles';
 import { useStorageData } from '../../hooks/storageData';
-import { setTimeout } from 'timers';
 
 
 
@@ -23,7 +22,7 @@ export function Home() {
   
   const {
     getAllLogins,
-    loginDataList,
+    loginDataList
   } = useStorageData();
   const [loginDataListLength, setLoginDataListLength] = useState<number>(loginDataList.length);
   
