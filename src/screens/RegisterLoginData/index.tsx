@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { RFValue } from 'react-native-responsive-fontsize';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigation } from '@react-navigation/native';
 
 import { Input } from '../../components/Form/Input';
 import { Button } from '../../components/Form/Button';
@@ -28,6 +29,7 @@ const schema = Yup.object().shape({
 })
 
 export function RegisterLoginData() {
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
@@ -46,6 +48,7 @@ export function RegisterLoginData() {
     await createANewLogin(formData);
 
     reset();
+    navigation.navigate('Home')
   }
 
   return (

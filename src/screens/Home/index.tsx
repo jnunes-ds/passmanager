@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { SearchBar } from '../../components/SearchBar';
@@ -27,9 +26,7 @@ export function Home() {
   
   async function loadData(){
     await getAllLogins();
-    if(searchListData.length === 0){
-      setSearchListData(loginDataList);
-    }
+    setSearchListData(loginDataList);
   }
   
   function handleFilterLoginData(search: string) {
@@ -62,7 +59,13 @@ export function Home() {
 
   useFocusEffect(useCallback(() => {
     loadData();
-  }, [loginDataList]));
+  }, []));
+
+  useFocusEffect(useCallback(() => {
+    if(searchListData.length === 0 && loginDataList.length > 0){
+      loadData();
+    }
+  }, [searchListData]));
 
 
   return (
